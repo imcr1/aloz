@@ -26,8 +26,8 @@ class PatternGame {
             ],
             hard: [
                 ['circle', 'square', 'triangle', 'diamond'],
-                ['circle', 'square', 'diamond', 'star'],
-                ['triangle', 'diamond', 'star', 'heart']
+                ['circle', 'square', 'diamond', 'triangle'],
+                ['triangle', 'diamond', 'triangle', 'heart']
             ]
         };
 
