@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لعبة التعرف على الأنماط</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container-fluid game-container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h1 class="game-title">لعبة التعرف على الأنماط</h1>
+            </div>
+        </div>
+        <!-- Animated Background -->
+        <div class="animated-background">
+            <div class="shapes-container" id="shapes-container">
+                <div class="shape circle" data-shape="circle" draggable="true"></div>
+                <div class="shape square" data-shape="square" draggable="true"></div>
+                <div class="shape triangle" data-shape="triangle" draggable="true"></div>
+            </div>
+        </div>
+
+        <div class="container position-relative">
+            <!-- Game screens -->
+            <div id="start-screen" class="game-screen">
+                <div class="glass-card">
+                    <div class="text-center main-menu">
+                        <h1 class="game-title mb-4 animate__animated animate__fadeInDown">
+                            لعبة الأنماط
+                        </h1>
+                        <!-- Profile Section -->
+                        <div class="profile-section animate__animated animate__fadeInUp animate__delay-1s">
+                            <div class="profile-card active" data-profile="1">
+                                <img src="1.jpg" alt="Developer Profile" class="profile-pic animate__animated animate__pulse animate__infinite animate__slow">
+                                <div class="developer-name">علي إبراهيم</div>
+                                <div class="developer-title">مطور اللعبة</div>
+                            </div>
+                            <div class="profile-card" data-profile="2">
+                                <img src="2.jpg" alt="Developer Profile" class="profile-pic animate__animated animate__pulse animate__infinite animate__slow">
+                                <div class="developer-name">عبدالعزيز محمد</div>
+                                <div class="developer-title">مطور اللعبة</div>
+                            </div>
+
+                        </div>
+                        <p class="menu-subtitle animate__animated animate__fadeIn animate__delay-1s">
+                            اختر مستوى الصعوبة
+                        </p>
+                        
+                        <!-- Difficulty Levels -->
+                        <div class="difficulty-levels">
+                            <button class="menu-btn easy animate__animated animate__fadeInLeft animate__delay-1s" data-difficulty="easy">
+                                <span class="btn-icon">✚</span>
+                                <span class="btn-text">سهل</span>
+                            </button>
+                            <button class="menu-btn medium animate__animated animate__fadeInLeft animate__delay-2s" data-difficulty="medium">
+                                <span class="btn-icon">★</span>
+                                <span class="btn-text">متوسط</span>
+                            </button>
+                            <button class="menu-btn hard animate__animated animate__fadeInLeft animate__delay-3s" data-difficulty="hard">
+                                <span class="btn-icon">✦</span>
+                                <span class="btn-text">صعب</span>
+                            </button>
+                            <button class="menu-btn qmode animate__animated animate__fadeInLeft animate__delay-4s" id="qmode-btn">
+                                <span class="btn-icon">❓</span>
+                                <span class="btn-text">نمط السؤال</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="sub-levels-screen" class="game-screen d-none">
+            <div class="glass-card">
+                <div class="text-center">
+                    <h2 class="menu-title animate__animated animate__fadeInDown">اختر المستوى</h2>
+                    <div id="sub-levels-container" class="sub-levels-grid animate__animated animate__fadeIn animate__delay-1s"></div>
+                    <button class="back-btn animate__animated animate__fadeInUp animate__delay-2s" id="back-to-difficulties">
+                        <span class="btn-icon">⬅</span>
+                        <span class="btn-text">رجوع</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question Screen -->
+        <div id="question-screen" class="game-screen d-none">
+            <div class="glass-card">
+                <div class="question-content text-center">
+                    <h3 class="mb-4">السؤال:</h3>
+                    <p class="question-text mb-4">
+                        صممت نورة نمطًا من الأشكال بدأ بـ: دائرة، مربع، مثلث، دائرة، مربع، مثلث، دائرة... إذا استمرت نورة في ترتيبها، فما الشكل الذي سيكون في الموقع العاشر؟
+                    </p>
+                    <p class="task-text text-muted">
+                        (اعمل النمط المذكور و استمر الى أن تصل للشكل العاشر)
+                    </p>
+                    <button class="btn btn-primary btn-lg mt-3" id="start-qmode">ابدأ الحل</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="game-screen" class="game-screen d-none">
+            <div class="glass-card game-card">
+                <div class="level-badge animate__animated animate__fadeInDown">
+                    <span class="level-label">المستوى:</span>
+                    <span id="current-level" class="level-number">١</span>
+                </div>
+                
+                <div id="pattern-container" class="pattern-container animate__animated animate__fadeIn"></div>
+                
+                <div id="shape-bank" class="shape-bank mt-4 animate__animated animate__fadeInUp animate__delay-1s"></div>
+                
+                <div class="game-controls animate__animated animate__fadeInUp animate__delay-2s">
+                    <button id="reset-button" class="game-btn warning">
+                        <span class="btn-icon">↺</span>
+                        <span class="btn-text">إعادة</span>
+                    </button>
+                    <button id="check-button" class="game-btn success">
+                        <span class="btn-icon">✓</span>
+                        <span class="btn-text">تحقق</span>
+                    </button>
+                    <button id="next-button" class="game-btn primary d-none">
+                        <span class="btn-icon">→</span>
+                        <span class="btn-text">التالي</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="congrats-screen" class="game-screen d-none">
+            <div class="row justify-content-center">
+                <div class="col-md-8 text-center">
+                    <h2>تهانينا!</h2>
+                    <p>لقد أكملت جميع الأنماط!</p>
+                    <button id="restart-button" class="btn btn-primary btn-lg">العودة للقائمة الرئيسية</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast container -->
+    <div class="toast-container position-fixed bottom-0 start-50 translate-middle-x p-3">
+        <div id="feedbackToast" class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body"></div>
+                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Q Mode Screen -->
+    <div id="qmode-screen" class="game-screen d-none">
+        <div class="glass-card">
+            <div class="text-center">
+                <h2 class="menu-title animate__animated animate__fadeInDown">نمط السؤال</h2>
+                <div class="question-content">
+                    <p class="question-text mb-4">
+                        صممت نورة نمطًا من الأشكال بدأ بـ: دائرة، مربع، مثلث، دائرة، مربع، مثلث، دائرة... إذا استمرت نورة في ترتيبها، فما الشكل الذي سيكون في الموقع العاشر؟
+                    </p>
+                    <p class="task-text text-muted mb-4">
+                        (اعمل النمط المذكور و استمر الى أن تصل للشكل العاشر)
+                    </p>
+                    <div class="pattern-container">
+                        <div class="pattern-slots">
+                            <!-- Pattern slots will be added by JavaScript -->
+                        </div>
+                        <div class="shape-bank">
+                            <div class="shape circle" data-shape="circle" draggable="true">
+                                <svg viewBox="0 0 100 100">
+                                    <circle cx="50" cy="50" r="40" fill="currentColor"/>
+                                </svg>
+                                <span class="shape-text">دائرة</span>
+                            </div>
+                            <div class="shape square" data-shape="square" draggable="true">
+                                <svg viewBox="0 0 100 100">
+                                    <rect x="10" y="10" width="80" height="80" fill="currentColor"/>
+                                </svg>
+                                <span class="shape-text">مربع</span>
+                            </div>
+                            <div class="shape triangle" data-shape="triangle" draggable="true">
+                                <svg viewBox="0 0 100 100">
+                                    <polygon points="50,10 90,90 10,90" fill="currentColor"/>
+                                </svg>
+                                <span class="shape-text">مثلث</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <button id="check-qmode" class="game-btn success">
+                            <span class="btn-icon">✓</span>
+                            <span class="btn-text">تحقق</span>
+                        </button>
+                        <button id="back-to-menu" class="game-btn warning">
+                            <span class="btn-icon">←</span>
+                            <span class="btn-text">رجوع</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="qmode.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>
